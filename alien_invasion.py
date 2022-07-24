@@ -65,7 +65,8 @@ class AlienInvasion:
         """响应按键和鼠标事件。"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                # sys.exit()
+                self._end_game()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -119,7 +120,8 @@ class AlienInvasion:
         elif event.key == pygame.K_DOWN:
             self.ship.moving_bottom = True
         elif event.key == pygame.K_q:
-            sys.exit()
+            # sys.exit()
+            self._end_game()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
         elif event.key == pygame.K_p and not self.status.game_active:
@@ -293,6 +295,17 @@ class AlienInvasion:
             self.status.game_active = False
             self.settings.bullets_allowed = 0
             pygame.mouse.set_visible(True)
+
+
+    def _end_game(self):
+        """完成结束游戏前的数据保存，并离开游戏。"""
+        with open('alien_invasion/high_score.txt') as file_object:
+            high_score_now = int(file_object.read())
+        if self.status.high_score > high_score_now:
+            with open('alien_invasion/high_score.txt', 'w') as file_object:
+                file_object.write(str(self.status.high_score))
+
+        sys.exit()
             
 
 if __name__ == '__main__':
