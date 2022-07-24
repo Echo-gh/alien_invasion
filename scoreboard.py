@@ -19,12 +19,9 @@ class Scoreboard:
         self.txt_color = (30, 30 , 30)
         self.font = pygame.font.SysFont(None, 48)
         
-        # 准备包含最高得分与当前得分的图像。
-        self.prep_score()
-        self.prep_high_score()
-        self.prep_level()
-        self.prep_ships()
-
+        # 将准备好的图像进行显示。
+        self.prep_images()
+        
 
     def prep_score(self):
         """将得分转换为一副渲染的图像。"""
@@ -87,3 +84,12 @@ class Scoreboard:
             ship.rect.x = 10 + ship_number * ship.rect.width
             ship.rect.y = 10
             self.ships.add(ship)
+
+
+    def prep_images(self):
+        """将需要显示图片的方法集中进行运行。"""
+        # 准备包含当前得分、最高得分、等级、剩余生命个数的图像。
+        self.prep_score()
+        self.prep_high_score()
+        self.prep_level()
+        self.prep_ships()

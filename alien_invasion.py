@@ -81,18 +81,15 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.status.game_active:
             # 重置游戏设置。
-            # self.settings.initialize_dynamic_settings()
             self._start_game()
 
 
     def _start_game(self):
         """游戏的开始。"""
-        # 重置游戏统计信息。
+        # 重置游戏统计信息并更新图像显示。
         self.status.reset_status()
         self.status.game_active = True
-        self.sb.prep_score()
-        self.sb.prep_level()
-        self.sb.prep_ships()
+        self.sb.prep_images()
 
         # 重置游戏设置
         self.settings.initialize_dynamic_settings()
@@ -171,14 +168,20 @@ class AlienInvasion:
             self.sb.check_high_score()
 
         if not self.aliens:
-            # 若外星人被全部击杀完，删除现有的子弹并新建一群外星人。
-            self.bullets.empty()
-            self._create_fleet()
-            self.settings.increase_speed()
+            # 若外星人被全部击杀完，开始新等级的游戏。
+            self._start_new_level()
 
-            # 提高等级。
-            self.status.level += 1
-            self.sb.prep_level()
+
+    def _start_new_level(self):
+        """若外星人被全部击杀完，开始新等级的游戏。"""
+        # 若外星人被全部击杀完，删除现有的子弹并新建一群外星人。
+        self.bullets.empty()
+        self._create_fleet()
+        self.settings.increase_speed()
+
+        # 提高等级。
+        self.status.level += 1
+        self.sb.prep_level()
                 
 
     def _create_fleet(self):
